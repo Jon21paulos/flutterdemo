@@ -1,0 +1,19 @@
+{
+  "@@locale": "am",
+  "signin": "ግባ",
+  "wellcome": "እንኳን ደህና መጣህ",
+  "signup":"ክፈት",
+  "email":"ኢሜይል",
+  "plaseenteryouremail":"እባክህ ኢሜልህን አስገባ",
+  "password":"ፕስወርድ",
+  "pleaseenteryourpassword":"እባክህ ፕስወርድ አስገባ",
+  "login":"ግባ",
+  "forgotpassword":"መክፈቻ ቁልፉን ረሳኽው",
+  "createnewaccount":"አዲስ መለያ ይፍጠሩ",
+  "name":"ስም",
+  "pleaseenteryourname":"እባክህ ስምህን አስገባ",
+  "about":"ስለ",
+  "contact":"አግኙን",
+  "gotocontact":"ወደ ግንኙነት ተመለስ",
+  "gobacktoabout":"ወደ ስለ ተመለስ"
+}

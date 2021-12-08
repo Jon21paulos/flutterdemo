@@ -1,0 +1,20 @@
+
+{
+  "@@locale": "es",
+  "signin": "senna",
+    "wellcome": "bega negean dhuftan",
+    "signup":"bena",
+    "email":"imela",
+    "plaseenteryouremail":"imela kessan sensisa",
+    "password":"passwordi",
+    "pleaseenteryourpassword":"passwordi kessan sensisa",
+    "login":"senna",
+    "forgotpassword":"passwordi iranfatani",
+    "createnewaccount":"accounti bena",
+    "name":"meqa",
+      "pleaseenteryourname":"meqa kessan sensisa",
+      "about":"wayye",
+      "contact":"waltutuqa",
+      "gotocontact":"gara waltutuqa",
+      "gobacktoabout":"gara wayye"
+}
