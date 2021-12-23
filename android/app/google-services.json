@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "922445234889",
+    "project_id": "simpleprojectauth",
+    "storage_bucket": "simpleprojectauth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:922445234889:android:a11e44cebaa828c4fe8318",
+        "android_client_info": {
+          "package_name": "com.jonpaulos.simpleproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "922445234889-bkp4oqjn9v80vgm0h9iru53hinqpcb5b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jonpaulos.simpleproject",
+            "certificate_hash": "371c0b4a69c5fee6338491cb8caa05bd689a2fcc"
+          }
+        },
+        {
+          "client_id": "922445234889-ianomoccjp66aku0c11427ldqt2to58c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEawxo4viUUQfPAyUMYVTT43WTSbemp5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "922445234889-ianomoccjp66aku0c11427ldqt2to58c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

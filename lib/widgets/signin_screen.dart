@@ -1,94 +1,76 @@
 import 'package:flutter/material.dart';
-import 'package:simpleproject/widgets/appbar.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:simpleproject/widgets/email_signin_screen.dart';
+import 'components/button_item.dart';
+import 'signin_otp_screen.dart';
 
-class SignInPage extends StatelessWidget {
-  const SignInPage({Key? key}) : super(key: key);
+class SignInScreen extends StatefulWidget {
+  const SignInScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: CustomAppBar(
-        backgroundColor: Colors.pink,
-        title: AppLocalizations.of(context)!.signin,
-      ),
-      body: SingleChildScrollView(
-           child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 60.0),
-                child: Center(
-                  child: SizedBox(
-                      width: 200,
-                      height: 150,
-                      child: Image.asset('lib/assets/logo.png')),
-                ),
-              ),
-              Padding(
-                padding: const  EdgeInsets.symmetric(horizontal: 15),
-                child: TextField(
-                  decoration: InputDecoration(
-                      border: const  OutlineInputBorder(),
-                      labelText: AppLocalizations.of(context)!.email,
-                      hintText: AppLocalizations.of(context)!.plaseenteryouremail),
-                ),
-              ),
-               Padding(
-                padding: const EdgeInsets.only(
-                    left: 15.0, right: 15.0, top: 15, bottom: 0),
-                child: TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      labelText: AppLocalizations.of(context)!.password,
-                      hintText: AppLocalizations.of(context)!.pleaseenteryourpassword ),
-                ),
-              ),
-              FlatButton(
-                onPressed: (){
+  _SignInScreenState createState() => _SignInScreenState();
+}
 
-                },
-                child:  Text(
-                  AppLocalizations.of(context)!.forgotpassword ,
-                  style: const TextStyle(color: Colors.pink, fontSize: 15),
+class _SignInScreenState extends State<SignInScreen> {
+
+  bool signUpwithphone = false;
+  void changeState(){
+    setState(() {
+      signUpwithphone = true;
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom !=0;
+
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                const SizedBox(height: 10),
+
+                if(!isKeyboard)
+                  Container(
+                    height: 150,
+                    alignment: Alignment.center, // This is needed
+                    child: Image.asset(
+                       "lib/assets/computer.png",
+                      fit: BoxFit.contain,
+                      width: 300,
+                    ),
                 ),
-              ),
-              Container(
-                height: 50,
-                width: 250,
-                decoration: BoxDecoration(
-                    color: Colors.pink, borderRadius: BorderRadius.circular(20)),
-                child: FlatButton(
-                  onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/about'
-                    );
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.login ,
-                    style: const TextStyle(color: Colors.white, fontSize: 25),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 130,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, "/signup");
-                },
-                child:  Text(
-                    AppLocalizations.of(context)!.createnewaccount ,
-                    style:const TextStyle(
-                        color: Colors.pink,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18)
-                )
-              )
-            ],
+
+                const SizedBox(height: 10),
+
+                signUpwithphone?  SignInOtpScreen():
+                    Column(
+                      children: [
+
+                        if(!isKeyboard) buttonItem(context,changeState),
+
+                        const SizedBox(height: 10),
+
+                        if(!isKeyboard) Center(
+                          child: Text(
+                            "or",
+                            style: Theme
+                                .of(context)
+                                .textTheme
+                                .headline6,
+                          ),
+                        ),
+
+                        const EmailSignIn(),
+
+                      ],
+                    )
+              ]
+            ),
+          ),
         ),
-      ),
     );
   }
 }
