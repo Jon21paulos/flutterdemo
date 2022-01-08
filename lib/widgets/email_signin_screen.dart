@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/src/provider.dart';
 import 'package:simpleproject/store/email_auth_provider.dart';
 import 'package:simpleproject/widgets/components/custom_textfield.dart';
@@ -39,8 +40,30 @@ class _EmailSignInState extends State<EmailSignIn> {
   void Clear(){
     emailController.clear();
     passwordController.clear();
-    passwordController.clear();
+    nameController.clear();
     confirmPasswordController.clear();
+  }
+  submitData(){
+    context.read<AuthenticationService>().initialValues();
+    if (_formKey.currentState!.validate()) {
+      if (signUp) {
+        //Provider sign up method
+        context.read<AuthenticationService>().signUp(
+          context: context,
+          nameController: nameController.text,
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        );
+
+      } else {
+        //Provider sign in method
+        context.read<AuthenticationService>().signIn(
+          context: context,
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+        );
+      }
+    }
   }
 
   @override
@@ -53,22 +76,22 @@ class _EmailSignInState extends State<EmailSignIn> {
 
          Visibility(
            visible: signUp,
-           child: customNameTextField(nameController, context),
+           child: customNameTextField(nameController, context,submitData),
          ),
 
           const SizedBox(height: 20),
 
-          customEmailTextField(emailController,context),
+          customEmailTextField(emailController,context,submitData),
 
           const SizedBox(height: 20),
 
-          customPasswordTextField(passwordController,context,isPasswordNotVisible,changeVisibility),
+          customPasswordTextField(passwordController,context,isPasswordNotVisible,changeVisibility,submitData),
 
           const SizedBox(height: 20),
 
           Visibility(
             visible: signUp,
-            child: customConfirmPasswordTextField(passwordController,confirmPasswordController,context,isPasswordNotVisible,changeVisibility)
+            child: customConfirmPasswordTextField(passwordController,confirmPasswordController,context,isPasswordNotVisible,changeVisibility,submitData)
           ),
 
           const SizedBox(height: 10),
@@ -87,27 +110,7 @@ class _EmailSignInState extends State<EmailSignIn> {
 
           MaterialButton(
             onPressed: () {
-              context.read<AuthenticationService>().initialValues();
-              if (_formKey.currentState!.validate()) {
-                if (signUp) {
-                  //Provider sign up method
-                  context.read<AuthenticationService>().signUp(
-                    context: context,
-                    nameController: nameController.text,
-                    email: emailController.text.trim(),
-                    password: passwordController.text.trim(),
-                  );
-
-                } else {
-                  //Provider sign in method
-                  context.read<AuthenticationService>().signIn(
-                    context: context,
-                    email: emailController.text.trim(),
-                    password: passwordController.text.trim(),
-                  );
-
-                }
-              }
+              submitData();
             },
             height: 40,
             minWidth: double.infinity,

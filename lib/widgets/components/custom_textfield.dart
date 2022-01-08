@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:simpleproject/utils/form_validation.dart';
 
-Widget customNameTextField(nameController, BuildContext context) => TextFormField(
+import '../email_signin_screen.dart';
+
+Widget customNameTextField(nameController, BuildContext context, Function() submitData) => TextFormField(
   autofocus: false,
   controller: nameController,
   keyboardType: TextInputType.name,
-  validator: (value) {
-    RegExp regex =  RegExp(r'^.{3,}$');
-    if (value!.isEmpty) {
-      return ("First Name cannot be Empty");
-    }
-    if (!regex.hasMatch(value)) {
-      return ("Enter Valid name(Min. 3 Character)");
-    }
-    return null;
+  textInputAction: TextInputAction.go,
+  onFieldSubmitted: (value) {
+    submitData();
   },
+  validator: nameValidator,
   onSaved: (value) {
     nameController.text = value!;
   },
-  textInputAction: TextInputAction.next,
+
   decoration: InputDecoration(
     hintText: "Name",
     hintStyle: Theme.of(context).textTheme.subtitle2,
@@ -41,25 +39,18 @@ Widget customNameTextField(nameController, BuildContext context) => TextFormFiel
 
 
 
-Widget customEmailTextField(emailController, BuildContext context) =>TextFormField(
+Widget customEmailTextField(emailController, BuildContext context, Function() submitData) =>TextFormField(
   autofocus: false,
   controller: emailController,
   keyboardType: TextInputType.emailAddress,
-  validator: (value) {
-    if (value!.isEmpty) {
-      return ("Please Enter Your Email");
-    }
-    // reg expression for email validation
-    if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-        .hasMatch(value)) {
-      return ("Please Enter a valid email");
-    }
-    return null;
-  },
+  validator: emailValidator,
   onSaved: (value) {
     emailController.text = value!;
   },
-  textInputAction: TextInputAction.next,
+  textInputAction: TextInputAction.go,
+    onFieldSubmitted: (value) {
+      submitData();
+    },
   decoration: InputDecoration(
     hintText: "Email",
     hintStyle: Theme.of(context).textTheme.subtitle2,
@@ -83,23 +74,18 @@ Widget customEmailTextField(emailController, BuildContext context) =>TextFormFie
 );
 
 
-Widget customPasswordTextField(passwordController, BuildContext context, isPasswordNotVisible, void Function() changeVisibility)=> TextFormField(
+Widget customPasswordTextField(passwordController, BuildContext context, isPasswordNotVisible, void Function() changeVisibility, Function() submitData)=> TextFormField(
   autofocus: false,
   controller: passwordController,
   obscureText: isPasswordNotVisible,
-  validator: (value) {
-    RegExp regex =  RegExp(r'^.{6,}$');
-    if (value!.isEmpty) {
-      return ("Password is required for login");
-    }
-    if (!regex.hasMatch(value)) {
-      return ("Enter Valid Password(Min. 6 Character)");
-    }
-  },
+  validator: passwordValidator,
   onSaved: (value) {
     passwordController.text = value!;
   },
-  textInputAction: TextInputAction.next,
+  textInputAction: TextInputAction.go,
+    onFieldSubmitted: (value) {
+      submitData();
+    },
   decoration: InputDecoration(
     prefixIcon:  Icon(Icons.vpn_key,color: Theme.of(context).iconTheme.color),
     hintText: "Password" ,
@@ -120,21 +106,18 @@ Widget customPasswordTextField(passwordController, BuildContext context, isPassw
 );
 
 
-Widget customConfirmPasswordTextField(passwordController,confirmPasswordEditingController, BuildContext context, isPasswordNotVisible, void Function() changeVisibility)=>TextFormField(
+Widget customConfirmPasswordTextField(passwordController,confirmPasswordEditingController, BuildContext context, isPasswordNotVisible, void Function() changeVisibility, Function() submitData)=>TextFormField(
   autofocus: false,
   controller: confirmPasswordEditingController,
-  obscureText: true,
-  validator: (value) {
-    if (confirmPasswordEditingController.text !=
-        passwordController.text) {
-      return "Password don't match";
-    }
-    return null;
-  },
+  obscureText: isPasswordNotVisible,
+  validator:confirmPasswordValidator,
   onSaved: (value) {
     confirmPasswordEditingController.text = value!;
   },
-  textInputAction: TextInputAction.done,
+  textInputAction: TextInputAction.go,
+  onFieldSubmitted: (value) {
+    submitData();
+  },
   decoration: InputDecoration(
     prefixIcon:  Icon(Icons.vpn_key,color: Theme.of(context).iconTheme.color),
     hintText: "Confirm Password" ,
@@ -147,9 +130,5 @@ Widget customConfirmPasswordTextField(passwordController,confirmPasswordEditingC
         borderRadius: BorderRadius.circular(10),
         borderSide: BorderSide(color: Theme.of(context).indicatorColor )
     ),
-    suffixIcon: IconButton(
-        icon: isPasswordNotVisible?Icon(Icons.visibility_off,color: Theme.of(context).iconTheme.color,):
-        Icon(Icons.visibility,color: Theme.of(context).iconTheme.color,),
-        onPressed: () =>changeVisibility()),
-      ),
+  ),
 );

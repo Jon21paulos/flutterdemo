@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -37,7 +38,10 @@ class SignInOtpScreen extends StatelessWidget {
                    backgroundColor: Colors.blue.shade50,
                    enableActiveFill: true,
                    onCompleted: (pin) {
-                     phoneauth.verifyPin(pin,context,name: nameController.text);
+                     phoneauth.setcodeSent(false);
+                     phoneauth.setErrorMessage("");
+                     phoneauth.setIsLoading(false);
+                     phoneauth.verifyPin(pin,context);
                    },
                    onChanged: (String value) {
                       print(value);
@@ -66,11 +70,16 @@ class SignInOtpScreen extends StatelessWidget {
 
                  const SizedBox(height: 30,),
 
-                 customNameTextField(nameController, context),
-
-                 const SizedBox(height: 30,),
-
                  IntlPhoneField(
+                   keyboardType: TextInputType.number,
+                   textInputAction: TextInputAction.go,
+                   inputFormatters: <TextInputFormatter>[
+                     FilteringTextInputFormatter.digitsOnly
+                   ],
+                   //verify with device keyboard button
+                   onSubmitted: (value){
+                     phoneauth.verifyPhone(context);
+                   },
                    decoration:  InputDecoration(
                       hintText: "please enter your phone number",
                       hintStyle: Theme.of(context).textTheme.subtitle2,
@@ -83,7 +92,7 @@ class SignInOtpScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide(color: Theme.of(context).primaryColor )
                       )
-                   ),
+                     ),
                      initialCountryCode: 'ET',
                      onChanged: (phoneNumber) {
                        phoneauth.setphone(phoneNumber.completeNumber);

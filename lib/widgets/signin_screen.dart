@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:simpleproject/widgets/email_signin_screen.dart';
 import 'components/button_item.dart';
 import 'signin_otp_screen.dart';
@@ -22,55 +24,55 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom !=0;
 
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+    return  Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
 
-                const SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
-                if(!isKeyboard)
-                  Container(
-                    height: 150,
-                    alignment: Alignment.center, // This is needed
-                    child: Image.asset(
-                       "lib/assets/computer.png",
-                      fit: BoxFit.contain,
-                      width: 300,
-                    ),
-                ),
+                  if(!isKeyboard)
+                    Container(
+                      height: 150,
+                      alignment: Alignment.center, // This is needed
+                      child: Image.asset(
+                         "lib/assets/computer.png",
+                        fit: BoxFit.contain,
+                        width: 300,
+                      ),
+                  ),
 
-                const SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
-                signUpwithphone?  SignInOtpScreen():
-                    Column(
-                      children: [
+                  signUpwithphone?  SignInOtpScreen():
+                      Column(
+                        children: [
 
-                        if(!isKeyboard) buttonItem(context,changeState),
+                          if(!isKeyboard) buttonItem(context,changeState),
 
-                        const SizedBox(height: 10),
+                          const SizedBox(height: 10),
 
-                        if(!isKeyboard) Center(
-                          child: Text(
-                            "or",
-                            style: Theme
-                                .of(context)
-                                .textTheme
-                                .headline6,
+                          if(!isKeyboard) Center(
+                            child: Text(
+                              "or",
+                              style: Theme
+                                  .of(context)
+                                  .textTheme
+                                  .headline6,
+                            ),
                           ),
-                        ),
 
-                        const EmailSignIn(),
+                          const EmailSignIn(),
 
-                      ],
-                    )
-              ]
+                        ],
+                      )
+                ]
+              ),
             ),
           ),
-        ),
-    );
+      );
   }
 }

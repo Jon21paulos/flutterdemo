@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:simpleproject/models/user_account_model.dart';
 
 class PhoneAuthService with ChangeNotifier {
   final FirebaseAuth _firebaseAuth;
@@ -62,7 +60,12 @@ class PhoneAuthService with ChangeNotifier {
 
       verificationFailed: (FirebaseAuthException e) {
         setIsLoading(false);
-        setErrorMessage("oops! something went wrong");
+        if (e.code == 'invalid-phone-number') {
+          setErrorMessage('The provided phone number is not valid.');
+        }else{
+          print(e.toString());
+          setErrorMessage("oops! something went wrong");
+        }
       },
 
       codeSent: (String verficationId, int? resendToken) {
@@ -77,15 +80,13 @@ class PhoneAuthService with ChangeNotifier {
     );
   }
 
-  Future<void> verifyPin(String pin,context, {required String name}) async {
+  Future<void> verifyPin(String pin,context) async {
 
     PhoneAuthCredential credential =
     PhoneAuthProvider.credential(verificationId: verId.toString(), smsCode: pin);
 
     try {
-      await _firebaseAuth.signInWithCredential(credential).then((value) =>
-      {postDetailsToFirestore(context,name)}
-      );
+      await _firebaseAuth.signInWithCredential(credential);
       notifyListeners();
       showSnackBar(context, "you success fully logged in");
     } on FirebaseAuthException catch (e) {
@@ -93,38 +94,21 @@ class PhoneAuthService with ChangeNotifier {
       switch(e.code){
 
         case "operation-not-allowed":
-          Navigator.of(context).pop();
+          setcodeSent(false);
           setErrorMessage("Too many requests to log into this account.");
           break;
 
         case 'user-disabled':
+          setcodeSent(false);
           setErrorMessage("the user you tried to log is disabled");
           break;
 
         default:
-          setErrorMessage(e.message.toString());
+          setcodeSent(false);
+          setErrorMessage(e.toString());
           break;
       }
     }
-  }
-
-  postDetailsToFirestore(context, String name) async {
-
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _firebaseAuth.currentUser;
-
-    UserAccountModel userAccountModel = UserAccountModel();
-
-    userAccountModel.name = name;
-    userAccountModel.uid = user!.uid;
-
-    await firebaseFirestore
-        .collection("users")
-        .doc(user.uid)
-        .set(userAccountModel.toMap());
-
-    showSnackBar(context,"Account created successfully");
-
   }
 }
 
